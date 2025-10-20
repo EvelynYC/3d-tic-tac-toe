@@ -2,6 +2,8 @@
 
 A 3D tic-tac-toe game built with Next.js and Three.js.
 
+Please visit https://3d-tic-tac-toe.vercel.app/ for the demo.
+
 ## Features
 
 - 🎮 3D wooden game board
