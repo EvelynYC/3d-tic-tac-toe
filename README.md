@@ -66,19 +66,8 @@ app/
 
 ## Testing
 
-Run tests with coverage:
-
 ```bash
-npm run test:coverage
+npm run test
 ```
 
 The test suite covers all 49 win conditions and game logic.
-
-## Development
-
-This project follows SOLID principles with:
-
-- Strategy pattern for win detection
-- Factory pattern for materials
-- Separation of concerns between components
-- Comprehensive test coverage
