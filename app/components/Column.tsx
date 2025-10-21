@@ -9,6 +9,7 @@ interface ColumnProps {
   onPointerOver: (e: ThreeEvent<PointerEvent>) => void;
   onPointerOut: (e: ThreeEvent<PointerEvent>) => void;
   onClick: (e: ThreeEvent<MouseEvent>) => void;
+  onPointerDown?: (e: ThreeEvent<PointerEvent>) => void;
 }
 
 export default function Column({
@@ -16,6 +17,7 @@ export default function Column({
   onPointerOver,
   onPointerOut,
   onClick,
+  onPointerDown,
 }: ColumnProps) {
   const material = useMemo(() => {
     return MaterialFactory.createColumnMaterial();
@@ -27,6 +29,7 @@ export default function Column({
       onPointerOver={onPointerOver}
       onPointerOut={onPointerOut}
       onClick={onClick}
+      onPointerDown={onPointerDown}
     >
       <cylinderGeometry args={[0.15, 0.15, 4.2, 16, 8]} />
       <primitive object={material} />

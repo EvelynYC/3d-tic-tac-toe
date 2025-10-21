@@ -18,6 +18,9 @@ export default function GameBoard({
 }: GameBoardProps) {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
+  const [previewColumn, setPreviewColumn] = useState<number | null>(null);
+  const lastClickTime = useRef<number>(0);
+  const clickTimeout = useRef<NodeJS.Timeout | null>(null);
   const [gameStatus, setGameStatus] = useState<GameStatus>({
     isGameOver: false,
     winner: null,
@@ -29,6 +32,48 @@ export default function GameBoard({
   const [showPreview, setShowPreview] = useState(true);
   const isAnimatingRef = useRef(false);
   const { camera, gl } = useThree();
+
+  // Handle single tap (preview) and double tap (place token)
+  const handleColumnInteraction = useCallback(
+    (columnIndex: number) => {
+      const now = Date.now();
+      const timeDiff = now - lastClickTime.current;
+
+      // Clear any existing timeout
+      if (clickTimeout.current) {
+        clearTimeout(clickTimeout.current);
+        clickTimeout.current = null;
+      }
+
+      // If clicking on the same column that's being previewed, place the token
+      if (previewColumn === columnIndex) {
+        if (!isAnimatingRef.current) {
+          onColumnClick(columnIndex);
+          setPreviewColumn(null);
+        }
+        lastClickTime.current = now;
+        return;
+      }
+
+      if (timeDiff < 300) {
+        // Double tap - place token
+        if (!isAnimatingRef.current) {
+          onColumnClick(columnIndex);
+          setPreviewColumn(null);
+        }
+      } else {
+        // Single tap - show preview
+        setPreviewColumn(columnIndex);
+        clickTimeout.current = setTimeout(() => {
+          setPreviewColumn(null);
+          clickTimeout.current = null;
+        }, 1000); // Preview for 1 second
+      }
+
+      lastClickTime.current = now;
+    },
+    [onColumnClick, previewColumn]
+  );
 
   // Generate fixed angles for each token position to avoid changes during re-rendering
   const tokenRotations = useMemo(() => {
@@ -142,10 +187,12 @@ export default function GameBoard({
               onClick={(e) => {
                 // Stop event propagation to ensure only the topmost column responds
                 e.stopPropagation();
-                // No clicks allowed during animation
-                if (canPlace && !isAnimatingRef.current) {
-                  onColumnClick(index);
-                }
+                handleColumnInteraction(index);
+              }}
+              onPointerDown={(e) => {
+                // Handle touch events for mobile
+                e.stopPropagation();
+                handleColumnInteraction(index);
               }}
             />
 
@@ -180,6 +227,17 @@ export default function GameBoard({
                   finalRotation={[0, 0, 0]}
                 />
               )}
+
+            {/* Preview token for single tap */}
+            {previewColumn === index && canPlace && (
+              <Token
+                position={[x, 0 + 4.0 / 3 / 2 + tokenCount * (4.0 / 3), z]}
+                color={currentPlayer}
+                isPreview={true}
+                finalRotation={[0, 0, 0]}
+                opacity={0.7}
+              />
+            )}
           </group>
         );
       })}
