@@ -15,7 +15,11 @@ export default function Token({
   isPreview = false,
   tokenId,
   finalRotation = [0, 0, 0],
-}: TokenProps & { finalRotation?: [number, number, number] }) {
+  opacity = 1,
+}: TokenProps & {
+  finalRotation?: [number, number, number];
+  opacity?: number;
+}) {
   const meshRef = useRef<THREE.Mesh>(null);
   const animationStartTimeRef = useRef<number | null>(null);
   const [startPosition] = useState<[number, number, number]>([
@@ -67,15 +71,26 @@ export default function Token({
 
   // Select material - use useMemo to ensure material is created only once
   const material = useMemo(() => {
+    let mat;
     if (isPreview) {
-      return color === "dark"
-        ? MaterialFactory.createPreviewMaterial("walnut")
-        : MaterialFactory.createPreviewMaterial("birch");
+      mat =
+        color === "dark"
+          ? MaterialFactory.createPreviewMaterial("walnut")
+          : MaterialFactory.createPreviewMaterial("birch");
+    } else {
+      mat =
+        color === "dark"
+          ? MaterialFactory.createTokenMaterial("walnut")
+          : MaterialFactory.createTokenMaterial("birch");
     }
-    return color === "dark"
-      ? MaterialFactory.createTokenMaterial("walnut")
-      : MaterialFactory.createTokenMaterial("birch");
-  }, [color, isPreview]);
+
+    if (opacity < 1) {
+      mat.transparent = true;
+      mat.opacity = opacity;
+    }
+
+    return mat;
+  }, [color, isPreview, opacity]);
 
   return (
     <mesh
