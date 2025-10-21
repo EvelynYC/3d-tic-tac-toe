@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { VictoryAnimationProps } from "../types/GameTypes";
-import { AnimationManager } from "../utils/AnimationManager";
+import { createVictoryAnimation } from "../utils/AnimationManager";
 
 export default function VictoryAnimation({ winner }: VictoryAnimationProps) {
   const textRef = useRef<THREE.Group>(null);
@@ -15,7 +15,7 @@ export default function VictoryAnimation({ winner }: VictoryAnimationProps) {
     setAnimationTime(time);
 
     if (textRef.current) {
-      const animation = AnimationManager.createVictoryAnimation(time);
+      const animation = createVictoryAnimation(time);
 
       // Rotation animation
       textRef.current.rotation.y = animation.rotation;
@@ -154,8 +154,7 @@ export default function VictoryAnimation({ winner }: VictoryAnimationProps) {
 
       {/* Particle effects */}
       {Array.from({ length: 20 }).map((_, i) => {
-        const animation =
-          AnimationManager.createVictoryAnimation(animationTime);
+        const animation = createVictoryAnimation(animationTime);
         const particlePos = animation.particles[i] || [0, 0, 0];
 
         return (

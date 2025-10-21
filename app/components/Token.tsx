@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { TokenProps } from "../types/GameTypes";
 import { MaterialFactory } from "../utils/MaterialFactory";
-import { AnimationManager } from "../utils/AnimationManager";
+import { createTokenAnimation } from "../utils/AnimationManager";
 
 export default function Token({
   position,
@@ -45,7 +45,7 @@ export default function Token({
       }
 
       const elapsedTime = currentTime - animationStartTimeRef.current;
-      const animationResult = AnimationManager.createTokenAnimation(
+      const animationResult = createTokenAnimation(
         startPosition,
         position,
         elapsedTime,
