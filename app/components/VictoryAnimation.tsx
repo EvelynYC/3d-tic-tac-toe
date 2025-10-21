@@ -48,16 +48,6 @@ export default function VictoryAnimation({ winner }: VictoryAnimationProps) {
           />
         </mesh>
 
-        {/* Victory text background */}
-        <mesh position={[0, 0, -0.5]}>
-          <planeGeometry args={[8, 3]} />
-          <meshBasicMaterial
-            color={winnerColor}
-            transparent
-            opacity={0.2 * winnerOpacity}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
         {/* Letter W */}
         <group position={[-1.5, 0, 0]}>
           {/* Left vertical line */}
