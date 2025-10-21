@@ -1,4 +1,4 @@
-import { GameState, Player } from "../GameLogic";
+import { GameState } from "../GameLogic";
 import { WinDetectionStrategy, WinResult } from "./WinDetectionStrategy";
 
 export class CrossLayerWinStrategy extends WinDetectionStrategy {

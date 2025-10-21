@@ -27,17 +27,4 @@ export class WinDetector {
 
     return { isWin: false, winner: null };
   }
-
-  // Add new win detection strategy
-  addStrategy(strategy: WinDetectionStrategy): void {
-    this.strategies.push(strategy);
-  }
-
-  // Remove strategy
-  removeStrategy(strategy: WinDetectionStrategy): void {
-    const index = this.strategies.indexOf(strategy);
-    if (index > -1) {
-      this.strategies.splice(index, 1);
-    }
-  }
 }
