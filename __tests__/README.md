@@ -2,12 +2,32 @@
 
 This directory contains a comprehensive automated test suite for the 3D Tic Tac Toe game.
 
+## 🎮 3D Board Position Reference
+
+```
+3D Board Position Reference (3x3x3 = 27 positions)
+
+Layer 0 (Bottom):    Layer 1 (Middle):    Layer 2 (Top):
+[0] [1] [2]         [0] [1] [2]         [0] [1] [2]
+[3] [4] [5]         [3] [4] [5]         [3] [4] [5]
+[6] [7] [8]         [6] [7] [8]         [6] [7] [8]
+```
+
+Each position is identified by `{ column, layer }` where:
+
+- **Column**: 0-8 (horizontal position within each layer)
+- **Layer**: 0-2 (vertical position across layers)
+- **Total**: 9 columns × 3 layers = 27 positions
+
 ## 📁 Test File Structure
 
 ```
 __tests__/
-├── GameLogic.test.ts          # Main game logic tests
-├── CrossLayerWin.test.ts      # Cross-layer diagonal win detection tests
+├── GameLogic.test.ts          # Core game logic and utility methods
+├── PlaneLines.test.ts        # Plane line win detection (18 combinations)
+├── VerticalLines.test.ts     # Vertical line win detection (9 combinations)
+├── PlaneDiagonals.test.ts    # Plane diagonal win detection (6 combinations)
+├── CrossLayerDiagonals.test.ts # Cross-layer diagonal win detection (16 combinations)
 ├── run-tests.sh              # Test execution script
 └── README.md                 # This file
 ```
@@ -16,20 +36,51 @@ __tests__/
 
 ### GameLogic.test.ts
 
-- ✅ **Plane Line Detection**: 3x3 grid rows and columns within each layer
-- ✅ **Vertical Line Detection**: Three identical tokens in the same column
-- ✅ **Plane Diagonal Detection**: Main and anti-diagonals within each layer
-- ✅ **Cross-layer Diagonal Detection**: All cross-layer diagonal combinations
+- ✅ **Basic Win Detection**: Examples of all win types
 - ✅ **No Win Conditions**: Empty states, incomplete lines, different colors, etc.
 - ✅ **Edge Cases**: Undefined columns, empty columns, etc.
 - ✅ **Other Methods**: canPlaceToken, isColumnFull, isGameEmpty
 
-### CrossLayerWin.test.ts
+### PlaneLines.test.ts
 
-Specifically tests all 16 cross-layer diagonal line combinations:
+Tests all 18 plane line combinations:
 
-- ✅ **4 True 3D Space Diagonals**: Through-center diagonals
-- ✅ **12 Side-specific Diagonals**: Edge and side face diagonals
+- ✅ **Layer 0 (Bottom)**: 6 tests (3 rows + 3 columns)
+- ✅ **Layer 1 (Middle)**: 6 tests (3 rows + 3 columns)
+- ✅ **Layer 2 (Top)**: 6 tests (3 rows + 3 columns)
+
+### VerticalLines.test.ts
+
+Tests all 9 vertical line combinations:
+
+- ✅ **Column 0-8**: Each column's internal vertical line
+
+### PlaneDiagonals.test.ts
+
+Tests all 6 plane diagonal combinations:
+
+- ✅ **Layer 0**: 2 tests (main + anti-diagonal)
+- ✅ **Layer 1**: 2 tests (main + anti-diagonal)
+- ✅ **Layer 2**: 2 tests (main + anti-diagonal)
+
+### CrossLayerDiagonals.test.ts
+
+Tests all 16 cross-layer diagonal combinations:
+
+- ✅ **4 True 3D Space Diagonals**: Through-center diagonals (2 lines × 2 directions)
+- ✅ **12 Side-specific Diagonals**: Edge and side face diagonals (6 lines × 2 directions)
+
+## 📊 Test Statistics
+
+**Total Test Cases: 80**
+
+| Test File                       | Test Cases | Description                         |
+| ------------------------------- | ---------- | ----------------------------------- |
+| **GameLogic.test.ts**           | 31         | Core game logic and utility methods |
+| **PlaneLines.test.ts**          | 18         | Plane line win detection            |
+| **CrossLayerDiagonals.test.ts** | 16         | Cross-layer diagonal win detection  |
+| **VerticalLines.test.ts**       | 9          | Vertical line win detection         |
+| **PlaneDiagonals.test.ts**      | 6          | Plane diagonal win detection        |
 
 ## 🎯 Win Condition Categories
 
@@ -50,8 +101,8 @@ The game has **49 total win conditions**:
 
 ### 4. Cross-layer Diagonals (16 combinations)
 
-- **4 through-center diagonals** (each with 2 directions = 8)
-- **8 side-specific diagonals** (each with 2 directions = 16, but some are duplicates, so 8 unique side diagonals)
+- **2 through-center diagonals** (each with 2 directions = 4)
+- **6 side-specific diagonals** (each with 2 directions = 12)
 
 ## 🚀 Running Tests
 
@@ -71,7 +122,10 @@ npm run test:coverage
 
 ```bash
 npm test GameLogic.test.ts
-npm test CrossLayerWin.test.ts
+npm test PlaneLines.test.ts
+npm test VerticalLines.test.ts
+npm test PlaneDiagonals.test.ts
+npm test CrossLayerDiagonals.test.ts
 ```
 
 ### Run Tests in Watch Mode

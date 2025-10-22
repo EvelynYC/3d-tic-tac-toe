@@ -4,7 +4,6 @@ import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { GameBoardProps, GameStatus } from "../types/GameTypes";
 import { GameLogic, GameState, Player } from "../utils/GameLogic";
-import { AnimationManager } from "../utils/AnimationManager";
 import Base from "./Base";
 import Column from "./Column";
 import Token from "./Token";

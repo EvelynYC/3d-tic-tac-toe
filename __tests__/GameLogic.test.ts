@@ -285,6 +285,44 @@ describe("GameLogic", () => {
       });
     });
 
+    describe("No Cross-layer Win Conditions", () => {
+      test("only two cross-layer tokens should have no win", () => {
+        const gameState = createGameState([
+          { column: 0, layer: 0, player: "dark" },
+          { column: 4, layer: 1, player: "dark" },
+          // Missing third token
+        ]);
+
+        const result = GameLogic.checkWinCondition(gameState);
+        expect(result.isWin).toBe(false);
+        expect(result.winner).toBe(null);
+      });
+
+      test("different colored cross-layer tokens should have no win", () => {
+        const gameState = createGameState([
+          { column: 0, layer: 0, player: "dark" },
+          { column: 4, layer: 1, player: "light" },
+          { column: 8, layer: 2, player: "dark" },
+        ]);
+
+        const result = GameLogic.checkWinCondition(gameState);
+        expect(result.isWin).toBe(false);
+        expect(result.winner).toBe(null);
+      });
+
+      test("scattered cross-layer tokens should have no win", () => {
+        const gameState = createGameState([
+          { column: 0, layer: 0, player: "light" },
+          { column: 1, layer: 1, player: "light" },
+          { column: 7, layer: 2, player: "light" },
+        ]);
+
+        const result = GameLogic.checkWinCondition(gameState);
+        expect(result.isWin).toBe(false);
+        expect(result.winner).toBe(null);
+      });
+    });
+
     describe("Edge Cases", () => {
       test("should handle empty game state", () => {
         const gameState: GameState = [];

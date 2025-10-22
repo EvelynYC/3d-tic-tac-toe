@@ -1,18 +1,14 @@
+import { WinDetector } from "./winDetection/WinDetector";
+import { WinResult } from "./winDetection/WinDetectionStrategy";
+
 export type Player = "dark" | "light";
 export type GameState = (Player | null)[][];
-
-export interface WinResult {
-  isWin: boolean;
-  winner: Player | null;
-}
 
 export interface GameConfig {
   boardSize: number;
   maxTokensPerColumn: number;
   totalColumns: number;
 }
-
-import { WinDetector } from "./winDetection/WinDetector";
 
 export class GameLogic {
   private static readonly config: GameConfig = {
