@@ -28,8 +28,8 @@ __tests__/
 
 Specifically tests all 16 cross-layer diagonal line combinations:
 
-- ✅ **4 True 3D Space Diagonals**: Through-center diagonals
-- ✅ **12 Side-specific Diagonals**: Edge and side face diagonals
+- ✅ **4 True 3D Space Diagonals**: Through-center diagonals (2 lines × 2 directions)
+- ✅ **12 Side-specific Diagonals**: Edge and side face diagonals (6 lines × 2 directions)
 
 ## 🎯 Win Condition Categories
 
@@ -50,8 +50,8 @@ The game has **49 total win conditions**:
 
 ### 4. Cross-layer Diagonals (16 combinations)
 
-- **4 through-center diagonals** (each with 2 directions = 8)
-- **8 side-specific diagonals** (each with 2 directions = 16, but some are duplicates, so 8 unique side diagonals)
+- **2 through-center diagonals** (each with 2 directions = 4)
+- **6 side-specific diagonals** (each with 2 directions = 12)
 
 ## 🚀 Running Tests
 
